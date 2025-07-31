@@ -58,7 +58,7 @@ Inclusivity: Dark mode and accessibility features make the app welcoming to dive
 
 ## Installation and Setup
 
-Clone the Repository:git clone https://github.com/Bedru-Mekiyu/mygovinsights.git
+Clone the Repository:git clone https://github.com/Bedru-Mekiyu/Group-16.git
 cd mygovinsights
 
 
