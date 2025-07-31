@@ -108,4 +108,4 @@ This project is licensed under the MIT License.
 ## Contact
 For questions or feedback, reach out via bedru.mekiyu-ug@aau.edu.et or open an issue on GitHub.
 
-Built with 💻 and ☕ to improve civic engagement!
+
