@@ -5,8 +5,9 @@ RFC(request for comment) - it explains how HTTP works, how email should be sent,
 HTTP - is the protocol
 RFC - the paper that explain the protocol
 
-hhtp version            RFC number                   what it does 
-HTTP/1.0                RFC 1945                      First offical Version of HTTP
-HTTP/1.1                RFC 2616                      Most common version for long time 
-HTTP/2                  RFC 7540                      Faster, uses binary instade of text
-HTTP/3                  RFC 9114                      Even faster, runs over QUIC protocol instade of TCP
+| HTTP Version   | RFC Number  | Key Features                                                                 |
+|---------------|------------|------------------------------------------------------------------------------|
+| HTTP/1.0      | RFC 1945   | First official version. Basic features: headers, GET/POST methods.            |
+| HTTP/1.1      | RFC 2616   | Persistent connections, chunked transfers, host headers. Most widely adopted. |
+| HTTP/2        | RFC 7540   | Binary protocol, multiplexing, server push. Faster than HTTP/1.1.             |
+| HTTP/3        | RFC 9114   | Uses QUIC protocol (over UDP) instead of TCP. Reduced latency, better encryption. |
