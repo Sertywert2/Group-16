@@ -1,108 +1,55 @@
-require('dotenv').config();
+'use strict';
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const winston = require('winston');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const { cleanEnv, str, port } = require('envalid');
-const swaggerUi = require('swagger-ui-express');
-const specs = require('./utils/swagger');
-const feedbackRoutes = require('./routes/feedback');
-const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/Admin');
-const contactRoutes = require('./routes/contact');
-
-// Validate environment variables
-const env = cleanEnv(process.env, {
-  MONGODB_URI: str(),
-  JWT_SECRET: str({ minLength: 32 }),
-  PORT: port({ default: 5000 }),
-  EMAIL_SERVICE: str(),
-  EMAIL_USER: str(),
-  EMAIL_PASS: str(),
-  ADMIN_EMAIL: str(),
-  REDIS_URL: str({ default: 'redis://127.0.0.1:6379' }),
-});
-
-// Configure Winston logger
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-    new winston.transports.Console(),
-  ],
-});
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
 
 const app = express();
 
+// Ensure uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 // Middleware
-app.use(helmet());
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(uploadDir));
 
-// Rate limiting
-const feedbackLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // 100 requests per IP
-});
-const contactLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 50, // Stricter for contact
-});
-app.use('/api/feedback', feedbackLimiter);
-app.use('/api/contact', contactLimiter);
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mygovinsights', {
+    serverSelectionTimeoutMS: 5000,
+    connectTimeoutMS: 10000,
+  })
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB error:', err.message));
 
-// Routes
-app.use('/api/feedback', feedbackRoutes);
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-const { httpRequestDuration } = require('./utils/metrics');
-app.use((req, res, next) => {
-  const end = httpRequestDuration.startTimer();
-  res.on('finish', () => {
-    end({ method: req.method, route: req.path, status: res.statusCode });
-  });
-  next();
-});
-app.get('/metrics', async (req, res) => {
-  res.set('Content-Type', promClient.register.contentType);
-  res.end(await promClient.register.metrics());
+// Route Middleware (each route handles its own uploads inside the file)
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/services', require('./routes/services'));
+app.use('/api/feedback', require('./routes/feedback'));
+app.use('/api/analytics', require('./routes/analytics'));
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not Found' });
 });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', uptime: process.uptime() });
-});
-
-// Error handling middleware
+// Error Handling Middleware
 app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(err.status || 500).json({ message: err.message || 'Something went wrong!' });
+  console.error(err.stack);
+  if (err.name === 'MulterError') {
+    return res.status(400).json({ message: 'File upload error', error: err.message });
+  }
+  res.status(500).json({ message: 'Server error', error: err.message });
 });
 
-// Connect to MongoDB
-mongoose.connect(env.MONGODB_URI, {
-  maxPoolSize: 10, // Connection pooling
-})
-  .then(() => logger.info('Connected to MongoDB'))
-  .catch(err => logger.error('MongoDB connection error:', err));
-  // Create indexes
-mongoose.connection.once('open', async () => {
-  await mongoose.model('Feedback').collection.createIndex({ service: 1, region: 1, createdAt: -1 });
-  await mongoose.model('Contact').collection.createIndex({ createdAt: -1 });
-  logger.info('Indexes created');
-});
-
-
-// Start server
-const PORT = env.PORT;
-app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

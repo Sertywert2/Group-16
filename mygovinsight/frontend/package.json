@@ -1,0 +1,28 @@
+{
+  "name": "mygovinsights-frontend",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "chart.js": "^4.4.0",
+    "i18next": "^23.0.0",
+    "mongoose": "^8.17.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.0.0",
+    "react-router-dom": "^6.16.0",
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/react-i18next": "^7.8.3",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.21",
+    "vite": "^7.1.2"
+  }
+}
