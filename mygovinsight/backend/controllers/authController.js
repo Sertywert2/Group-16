@@ -51,14 +51,15 @@ exports.signIn = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (
-      !user ||
-      !(await bcrypt.compare(password, user.password)) ||
-      !user.isVerified
-    ) {
-      return res
-        .status(401)
-        .json({ message: 'Invalid credentials or unverified account' });
+    const validPassword = user && (await bcrypt.compare(password, user.password));
+    if (!user || !validPassword) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Allow unverified login only if explicitly enabled (development convenience)
+    const allowUnverified = process.env.ALLOW_UNVERIFIED_LOGIN === 'true';
+    if (!user.isVerified && !allowUnverified) {
+      return res.status(403).json({ message: 'Account not verified. Please verify OTP.' });
     }
 
     const token = generateToken(user);

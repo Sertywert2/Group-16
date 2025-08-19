@@ -21,7 +21,7 @@ export default function LoginPage() {
       const res = await AuthApi.signin({ email, password })
       if (res?.token) {
         auth.setToken(res.token)
-        navigate("/dashboard")
+        navigate("/listings")
       } else {
         setError("Invalid response from server")
       }
