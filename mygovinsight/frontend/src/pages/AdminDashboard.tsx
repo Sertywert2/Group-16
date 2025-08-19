@@ -90,7 +90,6 @@ export default function AdminDashboard() {
         setFbPages(res?.pages || 1)
         setFbTotal(res?.total || filtered.length)
       } catch (e: any) {
-        // soft-fail to demo data if needed
         setFeedback([])
         setFbPage(1)
         setFbPages(1)
@@ -374,7 +373,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Details Panel */}
       {selectedFeedback && (
         <Card className="border-blue-200">
           <CardHeader>
@@ -499,7 +497,6 @@ export default function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
-          {/* Pagination */}
           <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
             <div>
               Showing page {fbPage} of {fbPages} • Total {fbTotal}
@@ -755,7 +752,6 @@ export default function AdminDashboard() {
         {error && (
           <div className="mb-4 text-sm text-red-600">{error}</div>
         )}
-        {/* Welcome Section */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Dashboard</h2>
@@ -776,7 +772,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <MetricCard
             title="Total Feedback"
@@ -812,7 +807,6 @@ export default function AdminDashboard() {
           />
         </div>
 
-        {/* Dynamic Content */}
         {activeTab === "Citizens" && renderCitizensView()}
         {activeTab === "Feedback Management" && renderFeedbackView()}
         {activeTab === "Analytics" && renderAnalyticsView()}

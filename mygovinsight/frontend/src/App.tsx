@@ -7,6 +7,7 @@ import ServicesPage from './pages/services'
 import AdminDashboard from './pages/AdminDashboard'
 import FeedbackPage from './pages/Feedback'
 import ProtectedRoute from './components/ProtectedRoute'
+import { LanguageProvider } from './contexts/LanguageContext'
 
 
 
@@ -14,7 +15,7 @@ function App() {
 
 
   return (
-    <>
+    <LanguageProvider>
        <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -43,7 +44,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
-    </>
+    </LanguageProvider>
   )
 }
 

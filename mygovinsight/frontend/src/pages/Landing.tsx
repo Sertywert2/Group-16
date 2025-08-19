@@ -3,8 +3,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Calendar, Hash, Globe, BarChart3, Flag, ThumbsUp } from "lucide-react"
 import { Link } from "react-router"
+import { useLanguage } from '../contexts/LanguageContext'
+import LanguageSelector from '../components/LanguageSelector'
 
 export default function Landing() {
+  const { t } = useLanguage()
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200">
@@ -12,38 +15,37 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <span className="text-xl font-semibold text-gray-900">
-                GovInsight <span className="text-blue-600">Pro</span>
+                {t('landing.title')} <span className="text-blue-600">{t('landing.subtitle')}</span>
               </span>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSelector variant="compact" />
               <Link to={'/login'}>
               <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
-                Citizen signin
+                {t('nav.citizen_signin')}
               </Button>
               </Link>
               <Link to={'/admin-login'}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">Government Signin</Button>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">{t('nav.government_signin')}</Button>
             </Link>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-white py-20">
+   
+      <section className="bg-white py-20 h-[90vh] flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl font-bold text-gray-900 mb-6">
-                GovInsights <span className="text-blue-600">Pro</span>
+                {t('landing.hero.title')}
               </h1>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Your comprehensive government analytics platform that transforms complex civic data into actionable
-                insights. Empower yourself with real-time government transparency, policy tracking, and citizen
-                engagement tools designed for the modern democracy.
+                {t('landing.hero.description')}
               </p>
               <Link to={'/listings'}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">Explore Platform</Button>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">{t('landing.hero.cta')}</Button>
               </Link>
             </div>
             <div className="flex justify-center">
@@ -63,9 +65,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <p className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-              GOVINSIGHT PRO MAIN FEATURES
+              {t('landing.features.title')}
             </p>
-            <h2 className="text-4xl font-bold text-gray-900">Why Choose GovInsights Pro?</h2>
+            <h2 className="text-4xl font-bold text-gray-900">{t('landing.features.subtitle')}</h2>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -73,9 +75,9 @@ export default function Landing() {
               <Card className="bg-gradient-to-br from-black via-blue-900 to-blue-600 text-white h-full">
                 <CardContent className="p-8">
                   <Calendar className="w-8 h-8 mb-4" />
-                  <h3 className="text-xl font-semibold mb-4 text-white">Secure & Anonymous</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-white">{t('landing.features.secure.title')}</h3>
                   <p className="text-blue-100 leading-relaxed">
-                    Bank-level security with complete transparency in government data access and usage tracking.
+                    {t('landing.features.secure.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -86,10 +88,9 @@ export default function Landing() {
               <Card className="bg-white">
                 <CardContent className="p-8">
                   <Hash className="w-8 h-8 text-gray-600 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Real-time Analytics</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('landing.features.analytics.title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Live government data visualization with instant updates on policies, budgets, and public
-                    initiatives.
+                    {t('landing.features.analytics.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -97,9 +98,9 @@ export default function Landing() {
               <Card className="bg-white">
                 <CardContent className="p-8">
                   <Globe className="w-8 h-8 text-gray-600 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Community Impact</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('landing.features.community.title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Track how your feedback contributes to community improvements
+                    {t('landing.features.community.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -107,9 +108,9 @@ export default function Landing() {
               <Card className="bg-white">
                 <CardContent className="p-8">
                   <BarChart3 className="w-8 h-8 text-gray-600 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Multi Sector Coverage</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('landing.features.coverage.title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Submit feedback across education health, infrastructure and more
+                    {t('landing.features.coverage.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -117,9 +118,9 @@ export default function Landing() {
               <Card className="bg-white">
                 <CardContent className="p-8">
                   <Flag className="w-8 h-8 text-gray-600 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">24/7 Monitoring</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('landing.features.monitoring.title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Use Jambo for analyzing user feedback & valuable insights
+                    {t('landing.features.monitoring.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -130,9 +131,9 @@ export default function Landing() {
               <Card className="bg-white">
                 <CardContent className="p-8">
                   <ThumbsUp className="w-8 h-8 text-gray-600 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">User-Friendly Interface</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('landing.features.interface.title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Use Jambo for analyze and engage with user feedback & valuable insights.
+                    {t('landing.features.interface.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -146,46 +147,44 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-blue-100 via-purple-50 to-blue-100 rounded-3xl p-16 text-center">
             <p className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-              Free to join • No credit card required • Instant access
+              {t('landing.cta.subtitle')}
             </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">Ready to Get Started?</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">{t('landing.cta.title')}</h2>
             <p className="text-lg text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Join thousands of citizens who are already using GovInsights Pro to stay informed and engaged with their
-              government. Create your free account today and start exploring government data like never before.
+              {t('landing.cta.description')}
             </p>
             <Link to={'/register'}>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">Citizen Signup</Button>
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">{t('landing.cta.button')}</Button>
             </Link>
           </div>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-5 gap-8">
-            {/* Resources Column 1 */}
+            {/* Services Column */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Resources</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t('footer.services')}</h3>
               <ul className="space-y-3">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Law Solutions
-                  </a>
+                  <Link to="/listings" className="text-gray-600 hover:text-gray-900">
+                    {t('footer.government_services')}
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-blue-600 hover:text-blue-700">
-                    Workplace Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-600 hover:text-gray-900">
-                    HR Advisory
-                  </a>
+                  <Link to="/feedback" className="text-blue-600 hover:text-blue-700">
+                    {t('footer.submit_feedback')}
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Employee Handbooks
+                    {t('footer.public_reports')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-gray-900">
+                    {t('footer.issue_tracking')}
                   </a>
                 </li>
               </ul>
@@ -193,81 +192,81 @@ export default function Landing() {
 
             {/* Platform Column */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Platform</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t('footer.platform')}</h3>
               <ul className="space-y-3">
                 <li>
+                  <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
+                    {t('footer.citizen_dashboard')}
+                  </Link>
+                </li>
+                <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Law Solutions
+                    {t('footer.data_analytics')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Workplace Policy
+                    {t('footer.reporting_tools')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    HR Advisory
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Employee Handbooks
+                    {t('footer.government_portal')}
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Resources Column 2 */}
+            {/* Resources Column */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Resources</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t('footer.resources')}</h3>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="text-blue-600 hover:text-blue-700">
-                    Articles
+                    {t('footer.how_it_works')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Documentation
+                    {t('footer.documentation')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Tutorials
+                    {t('footer.faqs')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Help Center
+                    {t('footer.help_center')}
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Company Column */}
+            {/* About Column */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t('footer.about')}</h3>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Law Solutions
+                    {t('footer.our_mission')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    Workplace Policy
+                    {t('footer.contact_us')}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-gray-900">
-                    HR Advisory
+                    {t('footer.community')}
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-blue-600 hover:text-blue-700">
-                    Employee Handbooks
-                  </a>
+                  <Link to="/admin-login" className="text-blue-600 hover:text-blue-700">
+                    {t('footer.government_login')}
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -275,33 +274,35 @@ export default function Landing() {
             {/* Newsletter Column */}
             <div>
               <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <span className="text-gray-600">📧</span> Newsletter
+                <span className="text-gray-600">📧</span> {t('footer.stay_informed')}
               </h3>
               <div className="space-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm text-gray-600 mb-2">
-                    Email address
+                    {t('footer.email_address')}
                   </label>
-                  <Input id="email" type="email" placeholder="someone@etc.com" className="w-full" />
+                  <Input id="email" type="email" placeholder={t('footer.email_placeholder')} className="w-full" />
                 </div>
                 <div className="flex items-start gap-2">
                   <input type="checkbox" id="terms" className="mt-1" />
                   <label htmlFor="terms" className="text-sm text-gray-600">
-                    I agree with the{" "}
+                    {t('footer.newsletter_agreement')}{" "}
                     <a href="#" className="text-blue-600 hover:text-blue-700">
-                      Term and Conditions
+                      {t('footer.terms_of_service')}
                     </a>
                   </label>
                 </div>
-                <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">Submit</Button>
+                <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">{t('footer.subscribe')}</Button>
                 <div className="text-center">
                   <div className="flex justify-center gap-2 mb-2">
                     {[...Array(5)].map((_, i) => (
-                      <div key={i} className="w-8 h-8 bg-gray-200 rounded"></div>
+                      <div key={i} className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">
+                        {['🏛️', '📊', '🗳️', '📋', '🎯'][i]}
+                      </div>
                     ))}
                   </div>
-                  <p className="text-sm font-medium text-gray-900">Get the latest newsletter</p>
-                  <p className="text-sm text-gray-600">Echo become a tech-driven legal solutions</p>
+                  <p className="text-sm font-medium text-gray-900">{t('footer.civic_movement')}</p>
+                  <p className="text-sm text-gray-600">{t('footer.help_shape')}</p>
                 </div>
               </div>
             </div>
@@ -309,16 +310,19 @@ export default function Landing() {
 
           {/* Footer Bottom */}
           <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-gray-600">AddisAbeba, Et</div>
+            <div className="text-sm text-gray-600">{t('footer.empowering_citizens')}</div>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-600 hover:text-gray-900">
-                Terms & Conditions
+                {t('footer.terms_conditions')}
               </a>
               <a href="#" className="text-gray-600 hover:text-gray-900">
-                Privacy Policy
+                {t('footer.privacy_policy')}
+              </a>
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                {t('footer.data_usage_policy')}
               </a>
             </div>
-            <div className="text-sm text-gray-600">©{new Date().getFullYear()}; All Rights Reserved</div>
+            <div className="text-sm text-gray-600">©{new Date().getFullYear()} {t('footer.copyright')}</div>
           </div>
         </div>
       </footer>

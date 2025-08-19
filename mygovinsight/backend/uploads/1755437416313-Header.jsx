@@ -64,7 +64,6 @@ const Header = ({ darkMode, setDarkMode }) => {
           </>
         )}
 
-        {/* Dark Mode Toggle */}
         <div className="relative inline-flex items-center">
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -82,7 +81,6 @@ const Header = ({ darkMode, setDarkMode }) => {
           </button>
         </div>
 
-        {/* Language Toggle */}
         <button
           onClick={toggleLanguage}
           className="ml-2 px-3 py-1 rounded border border-[var(--text)] text-[var(--text)] hover:bg-[var(--card-bg)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"

@@ -33,7 +33,6 @@ export default function AdminLoginPage() {
   }
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      {/* Back to home link */}
       <div className="mb-8">
         <Link to="/" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,8 +41,6 @@ export default function AdminLoginPage() {
           Back to home
         </Link>
       </div>
-
-      {/* Main card */}
       <div className="max-w-md mx-auto">
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
           {/* Language selector */}
@@ -51,7 +48,6 @@ export default function AdminLoginPage() {
             <span className="text-gray-400 text-sm">English En</span>
           </div>
 
-          {/* Logo and title */}
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold mb-2">
               GovInsight <span className="text-blue-600">Pro</span>
@@ -59,7 +55,6 @@ export default function AdminLoginPage() {
             <h2 className="text-xl font-semibold text-gray-900">Administrator Sign in</h2>
           </div>
 
-          {/* Login form */}
           <form className="space-y-6" onSubmit={onSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
@@ -102,7 +97,6 @@ export default function AdminLoginPage() {
             </Button>
           </form>
 
-          {/* Register link */}
           <div className="text-center mt-6">
             <span className="text-gray-600">Don't have an account? </span>
             <Link to="/register" className="text-blue-500 hover:underline">
@@ -110,7 +104,6 @@ export default function AdminLoginPage() {
             </Link>
           </div>
 
-          {/* Admin verification notice */}
           <div className="text-center mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm text-gray-600">
               Administrator access requires verification of government credentials

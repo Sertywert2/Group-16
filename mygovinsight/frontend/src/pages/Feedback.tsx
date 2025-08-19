@@ -118,7 +118,6 @@ export default function FeedbackPage() {
         <span className="text-sm text-gray-500">English En</span>
       </div>
 
-      {/* Main card */}
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
           <div className="text-center mb-8">
@@ -130,7 +129,6 @@ export default function FeedbackPage() {
             <p className="text-gray-600">Share your conversation with gov't institution</p>
           </div>
 
-          {/* Feedback form */}
           <form className="space-y-6" onSubmit={onSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -186,7 +184,6 @@ export default function FeedbackPage() {
               />
             </div>
 
-            {/* Upload documents */}
             <div>
               <label className="flex items-center gap-2 h-12 px-6 border border-gray-300 rounded-lg bg-transparent cursor-pointer w-fit">
                 <Upload className="h-4 w-4" />

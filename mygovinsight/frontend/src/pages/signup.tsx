@@ -94,7 +94,7 @@ export default function RegisterPage() {
             <span className="text-gray-400 text-sm">English En</span>
           </div>
 
-          {/* Logo and title */}
+       
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold mb-2">
               GovInsight <span className="text-blue-600">Pro</span>
