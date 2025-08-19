@@ -111,7 +111,7 @@ export default function FeedbackPage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex items-center justify-between p-4 mb-4">
-        <Link to="/services" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+        <Link to="/listings" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
           <ArrowLeft className="h-5 w-5" />
           <span>Back to services</span>
         </Link>

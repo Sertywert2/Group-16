@@ -209,33 +209,33 @@ export default function AdminDashboard() {
 
   // Derived data from dashboard with fallbacks
   const citizensList = useMemo(() => {
-    if (!dashboard?.citizenStats) return citizensData
-    return dashboard.citizenStats.map((c: any, idx: number) => ({
-      id: idx + 1,
+    if (!dashboard?.citizens) return citizensData
+    return (dashboard.citizens as any[]).map((c: any, idx: number) => ({
+      id: c.id || idx + 1,
       name: c.name || c.email || "Anonymous",
       avatar: "/placeholder.svg?height=32&width=32",
-      status: c.verified ? "Verified" : "Unverified",
-      rating: Math.round((c.avgRating || 0) * 10) / 10,
+      status: c.status || (c.isVerified ? "Verified" : "Unverified"),
+      rating: typeof c.rating === 'number' ? c.rating : Math.round((c.avgRating || 0) * 10) / 10,
       submissions: c.submissions || 0,
-      progress: Math.min(100, Math.round((c.progress || 0))),
+      progress: Math.min(100, Math.round(c.progress ?? (c.submissions || 0) * 10)),
     }))
   }, [dashboard])
 
   const recentFeedbackList = useMemo(() => {
-    if (!dashboard?.recentFeedback) return feedbackData
-    return dashboard.recentFeedback.map((f: any, idx: number) => ({
-      id: idx + 1,
-      citizen: f.citizenName || "Anonymous",
+    if (!dashboard?.feedback) return feedbackData
+    return (dashboard.feedback as any[]).map((f: any, idx: number) => ({
+      id: f.id || f._id || idx + 1,
+      citizen: f.citizen || f.citizenName || "Anonymous",
       avatar: "/placeholder.svg?height=32&width=32",
-      sector: f.sector || "--",
+      sector: f.sector || "General",
       rating: f.rating || 0,
-      ticket: f.ticket || f._id || "-",
+      ticket: f.ticket || (typeof f._id === 'string' ? f._id.slice(-6) : "-"),
     }))
   }, [dashboard])
 
   const weeklyChart = useMemo(() => {
-    if (!dashboard?.weeklyCounts) return chartData
-    return (dashboard.weeklyCounts || []).map((d: any) => ({ name: d.day, value: d.count }))
+    if (!dashboard?.weeklyOrderData) return chartData
+    return (dashboard.weeklyOrderData as any[]).map((d: any) => ({ name: d.day, value: d.orders }))
   }, [dashboard])
   // Simple, hook-free bar chart using divs
   const SimpleBarChart = ({ data, xKey, yKey, height = 300 }: { data: any[]; xKey: string; yKey: string; height?: number }) => {
@@ -803,7 +803,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <MetricCard
             title="Total Feedback"
-            value={`${dashboard?.totals?.feedbackCount ?? 845}`}
+            value={`${dashboard?.metrics?.totalFeedback ?? 845}`}
             change="+12.5% (30d)"
             trend="up"
             icon={MessageSquare}
@@ -827,7 +827,7 @@ export default function AdminDashboard() {
           />
           <MetricCard
             title="Average Rating"
-            value={`${dashboard?.totals?.averageRating ? (Math.round(dashboard.totals.averageRating * 10) / 10) : 3.5}/5`}
+            value={`${dashboard?.metrics?.averageRating ? (Math.round(dashboard.metrics.averageRating * 10) / 10) : 3.5}/5`}
             change="-1.2% (30d)"
             trend="down"
             icon={Star}

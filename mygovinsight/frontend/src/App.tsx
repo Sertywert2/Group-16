@@ -6,6 +6,7 @@ import RegisterPage from './pages/signup'
 import ServicesPage from './pages/services'
 import AdminDashboard from './pages/AdminDashboard'
 import FeedbackPage from './pages/Feedback'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 
@@ -22,8 +23,22 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
          
           <Route path="/listings" element={<ServicesPage />} />
-          <Route path="/dashboard" element={<AdminDashboard />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <ProtectedRoute>
+                <FeedbackPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
