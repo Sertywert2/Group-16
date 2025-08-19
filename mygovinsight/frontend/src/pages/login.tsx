@@ -21,7 +21,17 @@ export default function LoginPage() {
       const res = await AuthApi.signin({ email, password })
       if (res?.token) {
         auth.setToken(res.token)
-        navigate("/listings")
+        // Route based on role
+        try {
+          const payload = JSON.parse(atob(res.token.split('.')?.[1] || ''))
+          if (payload?.isAdmin) {
+            navigate("/dashboard")
+          } else {
+            navigate("/listings")
+          }
+        } catch {
+          navigate("/listings")
+        }
       } else {
         setError("Invalid response from server")
       }

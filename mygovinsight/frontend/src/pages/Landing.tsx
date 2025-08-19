@@ -42,7 +42,9 @@ export default function Landing() {
                 insights. Empower yourself with real-time government transparency, policy tracking, and citizen
                 engagement tools designed for the modern democracy.
               </p>
+              <Link to={'/listings'}>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">Explore Platform</Button>
+              </Link>
             </div>
             <div className="flex justify-center">
               <div className="w-96 h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-3xl overflow-hidden">
