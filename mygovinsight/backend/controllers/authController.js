@@ -150,3 +150,11 @@ exports.protect = async (req, res, next) => {
     res.status(401).json({ message: 'Token failed', error: err.message });
   }
 };
+
+// Admin-only middleware
+exports.requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.isAdmin !== true) {
+    return res.status(403).json({ message: 'Admin access required' });
+  }
+  next();
+};
