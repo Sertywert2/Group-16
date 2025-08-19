@@ -15,7 +15,8 @@ const generateToken = (user) => {
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, isAdmin } = req.body;
+    // Public registration: citizens only. Do not accept isAdmin from client.
+    const { name, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -28,7 +29,7 @@ exports.register = async (req, res) => {
       name,
       email,
       password,
-      isAdmin,
+      isAdmin: false,
       otp,
       isVerified: false,
     });
