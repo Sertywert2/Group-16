@@ -16,25 +16,31 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+app.use(cors({ origin: FRONTEND_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadDir));
 
 // MongoDB Connection
+const mongoUri = process.env.MONGO_URI;
+mongoose.set('strictQuery', true);
 mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mygovinsights', {
-    serverSelectionTimeoutMS: 5000,
-    connectTimeoutMS: 10000,
+  .connect(mongoUri, {
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 200000,
   })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB error:', err.message));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err.message));
+mongoose.connection.on('disconnected', () => console.warn('⚠️ MongoDB disconnected'));
+mongoose.connection.on('reconnected', () => console.log('🔁 MongoDB reconnected'));
 
 // Route Middleware (each route handles its own uploads inside the file)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/services', require('./routes/services'));
 app.use('/api/feedback', require('./routes/feedback'));
 app.use('/api/analytics', require('./routes/analytics'));
+app.use('/api/dashboard', require('./routes/dashboard'));
 
 // 404 handler
 app.use((req, res) => {
