@@ -301,12 +301,39 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     return translations[language][key as keyof typeof translations[typeof language]] || key
   }
 
-  const isRTL = language === 'am' // Amharic can be RTL in some contexts, but usually LTR
+  const isRTL = false // Keep all languages LTR to maintain consistent layout
 
   useEffect(() => {
     // Set document direction and language
     document.documentElement.lang = language
-    document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
+    document.documentElement.dir = 'ltr' // Always use LTR to maintain layout consistency
+    
+    // Add specific CSS for Amharic text rendering
+    const existingStyle = document.getElementById('amharic-text-fix')
+    if (existingStyle) {
+      existingStyle.remove()
+    }
+    
+    if (language === 'am') {
+      const style = document.createElement('style')
+      style.id = 'amharic-text-fix'
+      style.textContent = `
+        * {
+          font-feature-settings: normal !important;
+          text-rendering: optimizeLegibility !important;
+          -webkit-font-feature-settings: normal !important;
+          -moz-font-feature-settings: normal !important;
+          unicode-bidi: normal !important;
+          direction: ltr !important;
+          writing-mode: horizontal-tb !important;
+        }
+        
+        body, html {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+        }
+      `
+      document.head.appendChild(style)
+    }
   }, [language, isRTL])
 
   return (

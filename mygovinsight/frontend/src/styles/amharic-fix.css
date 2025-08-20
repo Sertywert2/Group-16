@@ -1,0 +1,33 @@
+/* Amharic text rendering fixes */
+.amharic-text {
+  font-feature-settings: normal !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-feature-settings: normal !important;
+  -moz-font-feature-settings: normal !important;
+  unicode-bidi: normal !important;
+  direction: ltr !important;
+  writing-mode: horizontal-tb !important;
+  font-variant: normal !important;
+  text-orientation: mixed !important;
+}
+
+/* Ensure proper font stack for Amharic */
+[lang="am"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Ethiopic', 'Noto Sans', sans-serif !important;
+}
+
+/* Force LTR for all text elements when in Amharic mode */
+[lang="am"] * {
+  direction: ltr !important;
+  unicode-bidi: normal !important;
+  text-align: inherit !important;
+}
+
+/* Prevent text mirroring in inputs and buttons */
+[lang="am"] input,
+[lang="am"] button,
+[lang="am"] textarea,
+[lang="am"] select {
+  direction: ltr !important;
+  text-align: left !important;
+}

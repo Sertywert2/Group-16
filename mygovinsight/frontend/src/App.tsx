@@ -8,6 +8,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import FeedbackPage from './pages/Feedback'
 import ProtectedRoute from './components/ProtectedRoute'
 import { LanguageProvider } from './contexts/LanguageContext'
+import './styles/amharic-fix.css'
 
 
 
