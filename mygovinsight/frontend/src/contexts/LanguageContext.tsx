@@ -318,7 +318,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       const style = document.createElement('style')
       style.id = 'amharic-text-fix'
       style.textContent = `
-        * {
+        /* Only target text elements, not layout containers */
+        p, span, h1, h2, h3, h4, h5, h6, a, button, input, textarea, label, li, td, th {
           font-feature-settings: normal !important;
           text-rendering: optimizeLegibility !important;
           -webkit-font-feature-settings: normal !important;
@@ -329,7 +330,18 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         }
         
         body, html {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Ethiopic', 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+          direction: ltr !important;
+        }
+        
+        /* Ensure flex and grid layouts are not affected */
+        .flex, .grid, [class*="flex"], [class*="grid"],
+        [class*="justify-"], [class*="items-"], [class*="content-"],
+        [class*="self-"], [class*="place-"], [class*="gap-"],
+        [class*="space-"], [class*="divide-"], .container,
+        .max-w-7xl, .mx-auto, [class*="max-w-"], [class*="min-h-"],
+        [class*="h-"], [class*="w-"], div, section, header, main, footer {
+          direction: ltr !important;
         }
       `
       document.head.appendChild(style)

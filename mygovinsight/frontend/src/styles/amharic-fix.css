@@ -16,11 +16,55 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Ethiopic', 'Noto Sans', sans-serif !important;
 }
 
-/* Force LTR for all text elements when in Amharic mode */
-[lang="am"] * {
+/* Force LTR for text elements when in Amharic mode, but preserve layout containers */
+[lang="am"] p,
+[lang="am"] span,
+[lang="am"] h1,
+[lang="am"] h2,
+[lang="am"] h3,
+[lang="am"] h4,
+[lang="am"] h5,
+[lang="am"] h6,
+[lang="am"] a,
+[lang="am"] button,
+[lang="am"] label,
+[lang="am"] li,
+[lang="am"] td,
+[lang="am"] th {
   direction: ltr !important;
   unicode-bidi: normal !important;
   text-align: inherit !important;
+}
+
+/* Preserve flex and grid layouts */
+[lang="am"] .flex,
+[lang="am"] .grid,
+[lang="am"] [class*="flex"],
+[lang="am"] [class*="grid"] {
+  direction: ltr !important;
+}
+
+/* Preserve Tailwind layout utilities */
+[lang="am"] [class*="justify-"],
+[lang="am"] [class*="items-"],
+[lang="am"] [class*="content-"],
+[lang="am"] [class*="self-"],
+[lang="am"] [class*="place-"],
+[lang="am"] [class*="gap-"],
+[lang="am"] [class*="space-"],
+[lang="am"] [class*="divide-"] {
+  direction: ltr !important;
+}
+
+/* Ensure containers maintain their layout */
+[lang="am"] .container,
+[lang="am"] .max-w-7xl,
+[lang="am"] .mx-auto,
+[lang="am"] [class*="max-w-"],
+[lang="am"] [class*="min-h-"],
+[lang="am"] [class*="h-"],
+[lang="am"] [class*="w-"] {
+  direction: ltr !important;
 }
 
 /* Prevent text mirroring in inputs and buttons */
