@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useSearchParams, useParams } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Textarea } from "../components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
@@ -55,6 +55,8 @@ const serviceData = {
 }
 
 export default function FeedbackPage() {
+  const [searchParams] = useSearchParams()
+  const { service: serviceParam } = useParams()
   const [selectedSector, setSelectedSector] = useState("")
   const [selectedInstitution, setSelectedInstitution] = useState("")
   const [rating, setRating] = useState(0)
@@ -64,6 +66,50 @@ export default function FeedbackPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+
+  // Read service parameter from URL (both query param and path param) and set initial sector
+  useEffect(() => {
+    // First try to get from URL path parameter (e.g., /feedback-on-police-abuse)
+    let service = serviceParam
+    
+    // If not found, try query parameter (e.g., /feedback?service=public-safety)
+    if (!service) {
+      service = searchParams.get('service')
+    }
+    
+    // Convert URL-friendly names to service IDs
+    const serviceMapping: Record<string, string> = {
+      'police-abuse': 'public-safety',
+      'health-services': 'health',
+      'education-services': 'education',
+      'transport-issues': 'transportation',
+      'employment-services': 'employment',
+      'housing-issues': 'housing',
+      'social-services': 'social-services',
+      'utility-issues': 'utilities',
+      'environmental-issues': 'environment',
+      'legal-issues': 'legal',
+      'municipal-services': 'municipal'
+    }
+    
+    // Map URL parameter to service ID
+    const mappedService = service ? (serviceMapping[service] || service) : null
+    
+    console.log('URL service parameter:', service)
+    console.log('Mapped service:', mappedService)
+    console.log('Available services:', Object.keys(serviceData))
+    console.log('Current selectedSector state before update:', selectedSector)
+    
+    if (mappedService && serviceData[mappedService as keyof typeof serviceData]) {
+      console.log('Setting selected sector to:', mappedService)
+      // Force re-render by using a timeout to ensure state update is processed
+      setTimeout(() => {
+        setSelectedSector(mappedService)
+      }, 0)
+    } else {
+      console.log('Service parameter not found or invalid')
+    }
+  }, [searchParams, serviceParam])
 
   
 
@@ -122,8 +168,8 @@ export default function FeedbackPage() {
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <span className="text-2xl font-bold text-gray-900">GovInsight</span>
-              <span className="text-2xl font-bold text-blue-600">Pro</span>
+              <span className="text-2xl font-bold text-gray-900">CivicVoice </span>
+              <span className="text-2xl font-bold text-blue-600">Et</span>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Submit Feedback</h2>
             <p className="text-gray-600">Share your conversation with gov't institution</p>
@@ -134,7 +180,18 @@ export default function FeedbackPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Choose Sector <span className="text-red-500">*</span>
               </label>
+              {selectedSector && serviceData[selectedSector as keyof typeof serviceData] && (
+                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span className="text-sm font-medium text-blue-800">
+                      Selected: {serviceData[selectedSector as keyof typeof serviceData].name}
+                    </span>
+                  </div>
+                </div>
+              )}
               <Select
+                key={selectedSector} // Force re-render when selectedSector changes
                 value={selectedSector}
                 onValueChange={(value) => {
                   setSelectedSector(value)

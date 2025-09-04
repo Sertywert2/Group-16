@@ -97,7 +97,7 @@ export default function RegisterPage() {
        
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold mb-2">
-              GovInsight <span className="text-blue-600">Pro</span>
+              CivicVoice  <span className="text-blue-600">Pro</span>
             </h1>
             <h2 className="text-xl font-semibold text-gray-900">Create Account</h2>
           </div>
