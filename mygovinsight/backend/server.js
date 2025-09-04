@@ -23,7 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadDir));
 
 // MongoDB Connection
-const mongoUri = process.env.MONGO_URI;
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+
 mongoose.set('strictQuery', true);
 mongoose
   .connect(mongoUri, {
